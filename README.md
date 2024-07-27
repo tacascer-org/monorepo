@@ -1,2 +1,3 @@
 # monorepo
-An experiment in manage a monorepo.
+An experiment in managing a monorepo.
+
