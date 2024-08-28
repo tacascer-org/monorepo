@@ -3,5 +3,6 @@ load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
 kt_jvm_binary(
     name = "Treasury",
     srcs = glob(["*.kt"]),
-    main_class = "io.github.tacascer.treasury.TreasuryKt",
+    main_class = "Treasury",
+    deps = [],
 )
