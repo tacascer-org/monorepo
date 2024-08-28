@@ -1,0 +1,10 @@
+azel_dep(name = "rules_kotlin", version = "1.9.6")
+
+kotlin_repositories()  # if you want the default. Otherwise see custom kotlinc distribution below
+
+kt_register_toolchains()  # to use the default toolchain, otherwise see toolchains below
+
+module(
+    name = "treasury",
+    version = "0.0.1",
+)
