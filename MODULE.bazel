@@ -1,1 +1,52 @@
 bazel_dep(name = "rules_kotlin", version = "1.9.6")
+bazel_dep(name = "rules_spring")
+bazel_dep(name = "rules_jvm_external", version = "6.2")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+JACKSON_VERSION = "2.17.2"
+
+KOTLIN_VERSION = "2.0.20"
+
+SPRING_BOOT_VERSION = "3.3.3"
+
+maven.install(
+    artifacts = [
+        "com.fasterxml.jackson.module:jackson-module-kotlin:{}".format(JACKSON_VERSION),
+        "org.jetbrains.kotlin:kotlin-reflect:{}".format(KOTLIN_VERSION),
+        "org.jetbrains.kotlin:kotlin-stdlib:{}".format(KOTLIN_VERSION),
+        "org.springframework.boot:spring-boot-starter-actuator:{}".format(SPRING_BOOT_VERSION),
+        "org.springframework.boot:spring-boot-starter-web:{}".format(SPRING_BOOT_VERSION),
+        "org.springframework.boot:spring-boot-loader:{}".format(SPRING_BOOT_VERSION),
+    ],
+    fail_if_repin_required = True,
+    fetch_javadoc = True,
+    fetch_sources = True,
+    lock_file = "//:maven_install.json",
+)
+maven.artifact(
+    testonly = True,
+    artifact = "kotlin-test-junit5",
+    group = "org.jetbrains.kotlin",
+    version = KOTLIN_VERSION,
+)
+maven.artifact(
+    testonly = True,
+    artifact = "junit-platform-launcher",
+    group = "org.junit.platform",
+    version = "1.11.0",
+)
+maven.artifact(
+    testonly = True,
+    artifact = "spring-boot-starter-test",
+    group = "org.springframework.boot",
+    version = SPRING_BOOT_VERSION,
+)
+
+git_override(
+    module_name = "rules_spring",
+    commit = "55bdaaea91fa6e9d834725f1e2b0d9adbddf2927",  # v2.3.2
+    remote = "https://github.com/salesforce/rules_spring",
+)
+
+use_repo(maven, "maven")
